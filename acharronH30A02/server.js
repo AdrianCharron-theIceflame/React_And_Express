@@ -9,8 +9,9 @@ const WEBROOT = path.join(__dirname, `client`, `build`)
 app.use(express.static(WEBROOT))
 
 app.route(`/movies/:id?`).get((req, res) => {
+    res.setHeader(`H30`, `Assignment 4`)
     if (req.params.id) {
-        let foundMovie = moviesFile.find((el) => el.Key === req.params.id)
+        let foundMovie = moviesFile.find((el) => el.Key == req.params.id)
         if (foundMovie) {
             res.json(foundMovie)
         } else {
