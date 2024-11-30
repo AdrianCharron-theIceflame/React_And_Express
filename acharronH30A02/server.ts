@@ -9,7 +9,7 @@ app.use(express.static(WEBROOT))
 
 app.route(`/movies/:id?`).get((req, res) => {
     res.setHeader(`H30`, `Assignment 2`)
-    if (req.params.id && isNaN(Number(req.params.id))) {
+    if (req.params.id) {
         let foundMovie = movies.find((el) => el.Key === Number(req.params.id))
         if (foundMovie) {
             res.json(foundMovie)
@@ -24,7 +24,7 @@ app.route(`/movies/:id?`).get((req, res) => {
                 "Title": movie.Title,
                 "Year": movie.Year
             }
-        })
+        }).sort((movie, movie2) => movie.Title.localeCompare(movie2.Title))
         res.json(allMovies)
     }
 })
