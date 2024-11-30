@@ -4,7 +4,7 @@ import List from './List';
 import { ListContext, AllMoviesType } from './ListContext';
 
 function App() {
-  const [moviesArr, setMoviesArr] = useState<AllMoviesType[]>(new Array())
+  const [moviesArr, setMoviesArr] = useState<AllMoviesType[]>(new Array<AllMoviesType>())
   useEffect(() => {
     (async function () {
       setMoviesArr(await fetch(`/movies`)
