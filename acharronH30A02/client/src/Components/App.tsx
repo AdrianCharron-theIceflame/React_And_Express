@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import '../Styles/App.css';
 import List from './List';
+import { ListContext } from './ListContext';
 
 type MoviesJson = {
   "Key": number,
@@ -10,21 +11,23 @@ type MoviesJson = {
   "Year": number,
   "Runtime": number,
   "Revenue": number
-}[]
+}
 
 function App() {
-  const [moviesArr, setMoviesArr] = useState<MoviesJson>()
+  const [moviesArr, setMoviesArr] = useState<MoviesJson[]>(new Array<MoviesJson>())
   useEffect(() => {
     (async function () {
-        setMoviesArr(await fetch(`/movies`)
-          .then(res => res.json())
-          .then(data => data)
+      setMoviesArr(await fetch(`/movies`)
+        .then(res => res.json())
+        .then(data => data)
       )
     })()
   }, [])
   return (
     <div>
-      <List />
+      <ListContext.Provider value={moviesArr.map(el => { return { key:el.Key, title: el.Title, year: el.Year } })}>
+        <List />
+      </ListContext.Provider>
     </div>
   );
 }

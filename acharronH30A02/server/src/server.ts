@@ -1,17 +1,12 @@
-"use strict";
-
-const express = require(`express`)
-const path = require(`path`)
+import express from "express";
 const app = express()
-const moviesFile = require(`./data/movies.json`)
+import moviesFile from "../data/movies.json";
 const PORT = 8888
-const WEBROOT = path.join(__dirname, `client`, `build`)
-app.use(express.static(WEBROOT))
 
 app.route(`/movies/:id?`).get((req, res) => {
     res.setHeader(`H30`, `Assignment 4`)
     if (req.params.id) {
-        let foundMovie = moviesFile.find((el) => el.Key == req.params.id)
+        let foundMovie = moviesFile.find((el) => el.Key === Number(req.params.id))
         if (foundMovie) {
             res.json(foundMovie)
         } else {
