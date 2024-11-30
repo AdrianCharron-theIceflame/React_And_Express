@@ -4,12 +4,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const path_1 = __importDefault(require("path"));
+const movies_json_1 = __importDefault(require("./data/movies.json"));
 const app = (0, express_1.default)();
-const movies_json_1 = __importDefault(require("../data/movies.json"));
 const PORT = 8888;
+const WEBROOT = path_1.default.join(__dirname, `client`, `build`);
+app.use(express_1.default.static(WEBROOT));
 app.route(`/movies/:id?`).get((req, res) => {
-    res.setHeader(`H30`, `Assignment 4`);
-    if (req.params.id) {
+    res.setHeader(`H30`, `Assignment 2`);
+    if (req.params.id && isNaN(Number(req.params.id))) {
         let foundMovie = movies_json_1.default.find((el) => el.Key === Number(req.params.id));
         if (foundMovie) {
             res.json(foundMovie);
@@ -20,7 +23,14 @@ app.route(`/movies/:id?`).get((req, res) => {
         }
     }
     else {
-        res.json(movies_json_1.default);
+        let allMovies = movies_json_1.default.map(movie => {
+            return {
+                "Key": movie.Key,
+                "Title": movie.Title,
+                "Year": movie.Year
+            };
+        });
+        res.json(allMovies);
     }
 });
 app.listen(PORT, () => {

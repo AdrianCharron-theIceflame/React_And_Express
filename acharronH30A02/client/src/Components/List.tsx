@@ -4,7 +4,7 @@ export default function List() {
     const movies = useContext(ListContext)
     return (
         <ul>
-            {movies.map(el => (<li key={el.key}>{`${el.title} from ${el.year}`}</li>))}
+            {movies.map(el => (<li key={el.Key}>{`${el.Title} from ${el.Year}`}</li>))}
         </ul>
     )
 }

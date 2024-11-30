@@ -1,20 +1,10 @@
 import { useState, useEffect } from 'react';
 import '../Styles/App.css';
 import List from './List';
-import { ListContext } from './ListContext';
-
-type MoviesJson = {
-  "Key": number,
-  "Title": string,
-  "Genre": string[],
-  "Actors": string[],
-  "Year": number,
-  "Runtime": number,
-  "Revenue": number
-}
+import { ListContext, AllMoviesType } from './ListContext';
 
 function App() {
-  const [moviesArr, setMoviesArr] = useState<MoviesJson[]>(new Array<MoviesJson>())
+  const [moviesArr, setMoviesArr] = useState<AllMoviesType[]>(new Array())
   useEffect(() => {
     (async function () {
       setMoviesArr(await fetch(`/movies`)
@@ -25,7 +15,7 @@ function App() {
   }, [])
   return (
     <div>
-      <ListContext.Provider value={moviesArr.map(el => { return { key:el.Key, title: el.Title, year: el.Year } })}>
+      <ListContext.Provider value={moviesArr}>
         <List />
       </ListContext.Provider>
     </div>
