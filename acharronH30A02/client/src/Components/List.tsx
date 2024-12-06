@@ -1,16 +1,19 @@
 export type AllMoviesType = {
-    Key:number,
+    Key: number,
     Title: string,
     Year: number
 }
 type ListProps = {
-    movies: AllMoviesType[]
+    movies: AllMoviesType[],
+    chooseMovie: (id: number) => void
 }
 export default function List(props: ListProps) {
-    const {movies} = props
+    const { movies, chooseMovie } = props
     return (
-        <ul>
-            {movies.map(el => (<li key={el.Key}>{`${el.Title} from ${el.Year}`}</li>))}
-        </ul>
+        <div className="List">
+            <ul>
+                {movies.map(el => (<li key={el.Key} onClick={() => { chooseMovie(el.Key) }}>{`${el.Title} from ${el.Year}`}</li>))}
+            </ul>
+        </div>
     )
 }
