@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import '../Styles/App.css';
 import List from './List';
-import { ListContext, AllMoviesType } from './ListContext';
-
+import { AllMoviesType } from './List';
 function App() {
   const [moviesArr, setMoviesArr] = useState<AllMoviesType[]>(new Array<AllMoviesType>())
   useEffect(() => {
@@ -15,9 +14,7 @@ function App() {
   }, [])
   return (
     <div>
-      <ListContext.Provider value={moviesArr}>
-        <List />
-      </ListContext.Provider>
+        <List movies={moviesArr} />
     </div>
   );
 }
