@@ -1,3 +1,5 @@
+import { useContext } from "react"
+import { SelectorContext } from "./Context"
 export type AllMoviesType = {
     Key: number,
     Title: string,
@@ -5,10 +7,10 @@ export type AllMoviesType = {
 }
 type ListProps = {
     movies: AllMoviesType[],
-    chooseMovie: (id: number) => void
 }
 export default function List(props: ListProps) {
-    const { movies, chooseMovie } = props
+    const { movies } = props
+    const { chooseMovie } = useContext(SelectorContext)
     return (
         <div className="List">
             <ul>

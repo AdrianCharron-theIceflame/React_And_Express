@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, } from 'react';
 import '../Styles/App.css';
 import List from './List';
 import { AllMoviesType } from './List';
 import Movie from './Movie';
+import { SelectorContext } from './Context';
 export type MovieType = {
   Key: number,
   Title: string,
@@ -23,7 +24,7 @@ function App() {
       )
     })()
   }, [])
-  function chooseMovie(id: number | null) {
+  function chooseMovie(id: number | null = null) {
     if (id !== null)
       (async function () {
         setSelectedMovie(await fetch(`movies/${id}`)
@@ -36,8 +37,9 @@ function App() {
   }
   return (
     <div className='App'>
-      {selectedMovie === null ? <List movies={moviesArr} chooseMovie={chooseMovie} /> : <Movie movie={selectedMovie} chooseMovie={chooseMovie} />}
-
+      <SelectorContext.Provider value={{ chooseMovie: chooseMovie }}>
+        {selectedMovie === null ? <List movies={moviesArr} /> : <Movie movie={selectedMovie} />}
+      </SelectorContext.Provider>
     </div>
   );
 }
