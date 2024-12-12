@@ -31,7 +31,8 @@ app.route(`/movies/:id?`).get((req, res) => {
 })
 
 app.route(`/actors/:name`).get((req, res) => {
-    let actorName = req.params.name.replace('+', ' ').toLowerCase()
+    let actorName = req.params.name.toLowerCase()
+    actorName.replaceAll(`+`, " ")
     let actorRegex = new RegExp(actorName, "i")
     res.setHeader(...a2Headers)
     let actorMovies: { "Title": string, "Year": number, "Key": number }[] = new Array(0)
