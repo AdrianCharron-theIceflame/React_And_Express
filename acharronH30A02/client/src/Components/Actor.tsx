@@ -1,7 +1,5 @@
-type ActorProps = {
-    actors: string[]
-}
-export default function Actor(props: ActorProps) {
+import { ActorPropsType } from "./moviesTypes"
+export default function Actor(props: ActorPropsType) {
     const { actors } = props
     return (
         <>

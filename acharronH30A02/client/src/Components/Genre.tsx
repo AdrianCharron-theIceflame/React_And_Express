@@ -1,7 +1,5 @@
-type GenreProps = {
-    genres: string[]
-}
-export default function Genre(props: GenreProps) {
+import { GenrePropsType } from "./moviesTypes"
+export default function Genre(props: GenrePropsType) {
     const { genres } = props
     if (genres.length === 1) {
         return (
