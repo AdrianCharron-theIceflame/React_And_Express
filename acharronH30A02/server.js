@@ -47,9 +47,25 @@ app.route(`/actors/:name`).get((req, res) => {
     actorMovies.sort((el, el2) => el.Title.localeCompare(el2.Title));
     res.json(actorMovies);
 });
+app.route(`/years/:year`).get((req, res) => {
+    res.setHeader(...a2Headers);
+    let yearMovies = new Array(0);
+    let year = Number(req.params.year);
+    movies_json_1.default.forEach(movie => {
+        if (movie.Year === year)
+            yearMovies.push(createMovieObject(movie));
+    });
+    yearMovies.sort((el1, el2) => el1.Title.localeCompare(el2.Title));
+    res.json(yearMovies);
+});
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
+/**
+ * Converts a movie object to one with only the key, title and year
+ * @param movie the movie object passed in from the JSON file
+ * @returns a smaller movie object with "Key", "Year", and "Title"
+ */
 function createMovieObject(movie) {
     return {
         "Key": movie.Key,

@@ -10,7 +10,7 @@ function App() {
   const [moviesArr, setMoviesArr] = useState<AllMoviesType[]>(new Array<AllMoviesType>())
   const [selectedMovie, setSelectedMovie] = useState<MovieType | null>(null)
   useEffect(() => {
-    if (selectedActor === null){
+    if (selectedActor === null) {
       (async function () {
         setMoviesArr(await fetch(`/movies`)
           .then(res => res.json())
@@ -19,6 +19,7 @@ function App() {
       })()
     }
     else
+      // 
       (async function () {
         setMoviesArr(await fetch(`/actors/${selectedActor}`)
           .then(res => res.json())
@@ -26,6 +27,10 @@ function App() {
         )
       })()
   }, [selectedActor])
+  /**
+   * Sends a fetch request for a movie with the selected id
+   * @param id the id to be sent in the fetch request or null for no vies selected
+   */
   function chooseMovie(id: number | null = null) {
     if (id !== null)
       (async function () {
@@ -37,7 +42,12 @@ function App() {
     else
       setSelectedMovie(null)
   }
+  /**
+   * Sets the name of the actor to be searched for
+   * @param name the name of the actor
+   */
   function searchActor(name: string | null = null) {
+    setSelectedMovie(null)
     if (name) {
       if (name.includes(` `))
         name.replace(` `, `+`)
