@@ -15,7 +15,9 @@ app.use(express_1.default.static(WEBROOT, {
         res.setHeader(...a2Headers);
     },
 }));
-app.route(`/movies/:id?`).get((req, res) => {
+app.use(express_1.default.urlencoded({ extended: true }));
+app.route(`/movies/:id?`)
+    .get((req, res) => {
     res.setHeader(...a2Headers);
     if (req.params.id) {
         let foundMovie = movies_json_1.default.find((el) => el.Key === Number(req.params.id));
@@ -33,10 +35,12 @@ app.route(`/movies/:id?`).get((req, res) => {
         }).sort((movie, movie2) => movie.Title.localeCompare(movie2.Title));
         res.json(allMovies);
     }
+})
+    .post((req, res) => {
 });
 app.route(`/actors/:name`).get((req, res) => {
     let actorName = req.params.name.toLowerCase();
-    actorName.replaceAll(`+`, " ");
+    actorName = actorName.replaceAll(`+`, " ");
     let actorRegex = new RegExp(actorName, "i");
     res.setHeader(...a2Headers);
     let actorMovies = new Array(0);

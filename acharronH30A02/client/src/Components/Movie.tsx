@@ -7,7 +7,7 @@ export default function Movie(props: MoviePropsType) {
     const { movie } = props
     const { chooseMovie } = useContext(SelectorContext)
     return (
-        <div className="Movie">
+        <div className="movie">
             <button onClick={() => chooseMovie()}>Back</button>
             <section className="Movie">
                 <h2>{movie.Title}</h2>

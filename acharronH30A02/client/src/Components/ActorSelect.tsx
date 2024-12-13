@@ -1,8 +1,9 @@
 import { useState } from "react"
 import { ActorSelectorPropsType } from "./moviesTypes"
-export default function ActorSelector(props: ActorSelectorPropsType) {
+export default function ActorSelect(props: ActorSelectorPropsType) {
     const { searchActor } = props
     const [searchName, setSearchName] = useState(``)
+    
     /**
      * Reads for a change event to change the stored name
      * @param e the change event registered to the html input element
@@ -14,6 +15,7 @@ export default function ActorSelector(props: ActorSelectorPropsType) {
         }
         setSearchName(name)
     }
+
     /**
      * Action performed when the search button is clicked or when enter is clicked on the field
      * @param e is a button click event or an "Enter" key event
@@ -27,7 +29,7 @@ export default function ActorSelector(props: ActorSelectorPropsType) {
         }
     }
     return (
-        <div className="ActorSelector">
+        <div className="actorSelector">
             <label htmlFor="fldActorName">Search for an actors's name: </label><input onChange={inputChange} onKeyDown={actionPerformed_searchName} type="text" name="fldActorName" id="fldActorName" />
             <button onClick={actionPerformed_searchName}>Search</button>
         </div>

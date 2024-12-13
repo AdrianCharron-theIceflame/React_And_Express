@@ -1,6 +1,8 @@
 import express from "express";
 import path from "path";
 import movies from "./data/movies.json";
+import fs from "fs";
+
 const app = express()
 const PORT = 8888
 const WEBROOT = path.join(__dirname, `client`, `build`)
@@ -18,27 +20,33 @@ app.use(express.static(WEBROOT, {
     },
 }))
 
-app.route(`/movies/:id?`).get((req, res) => {
-    res.setHeader(...a2Headers)
-    if (req.params.id) {
-        let foundMovie = movies.find((el) => el.Key === Number(req.params.id))
-        if (foundMovie) {
-            res.json(foundMovie)
+app.use(express.urlencoded({ extended: true }))
+
+app.route(`/movies/:id?`)
+    .get((req, res) => {
+        res.setHeader(...a2Headers)
+        if (req.params.id) {
+            let foundMovie = movies.find((el) => el.Key === Number(req.params.id))
+            if (foundMovie) {
+                res.json(foundMovie)
+            } else {
+                res.status(404)
+                    .end(`<h1>Movie Not Found</h1>`)
+            }
         } else {
-            res.status(404)
-                .end(`<h1>Movie Not Found</h1>`)
+            let allMovies: AllMoviesType[] = movies.map(movie => {
+                return createMovieObject(movie)
+            }).sort((movie, movie2) => movie.Title.localeCompare(movie2.Title))
+            res.json(allMovies)
         }
-    } else {
-        let allMovies: AllMoviesType[] = movies.map(movie => {
-            return createMovieObject(movie)
-        }).sort((movie, movie2) => movie.Title.localeCompare(movie2.Title))
-        res.json(allMovies)
-    }
-})
+    })
+    .post((req, res) => {
+
+    })
 
 app.route(`/actors/:name`).get((req, res) => {
     let actorName = req.params.name.toLowerCase()
-    actorName.replaceAll(`+`, " ")
+    actorName = actorName.replaceAll(`+`, " ")
     let actorRegex = new RegExp(actorName, "i")
     res.setHeader(...a2Headers)
     let actorMovies: AllMoviesType[] = new Array(0)
