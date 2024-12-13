@@ -6,6 +6,7 @@ import Genre from "./Genre"
 export default function Movie(props: MoviePropsType) {
     const { movie } = props
     const { chooseMovie } = useContext(SelectorContext)
+    document.title = `Movies - ${movie.Title}`
     return (
         <div className="movie">
             <button onClick={() => chooseMovie()}>Back</button>

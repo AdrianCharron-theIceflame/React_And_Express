@@ -3,7 +3,6 @@ import { ActorSelectorPropsType } from "./moviesTypes"
 export default function ActorSelect(props: ActorSelectorPropsType) {
     const { searchActor } = props
     const [searchName, setSearchName] = useState(``)
-    
     /**
      * Reads for a change event to change the stored name
      * @param e the change event registered to the html input element

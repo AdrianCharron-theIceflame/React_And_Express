@@ -26,7 +26,8 @@ function App() {
           .then(res => res.json())
           .then(data => data)
         )
-      })()
+      })();
+      document.title = `Movies - Home`
     }
     else if (selectedActor !== null && selectedYear === null) {
       (async function () {
@@ -34,7 +35,8 @@ function App() {
           .then(res => res.json())
           .then(data => data)
         )
-      })()
+      })();
+      document.title = `Movies - Actor Name "${selectedActor}"`
     }
     else if (selectedActor === null && selectedYear !== null) {
       (async function () {
@@ -42,7 +44,8 @@ function App() {
           .then(res => res.json())
           .then(data => data)
         )
-      })()
+      })();
+      document.title = `Movies - Year ${selectedYear}`
     }
   }, [selectedActor, selectedYear])
 
@@ -51,15 +54,24 @@ function App() {
    * @param id the id to be sent in the fetch request or null for no vies selected
    */
   function chooseMovie(id: number | null = null) {
-    if (id !== null)
+    if (id !== null) {
       (async function () {
         setSelectedMovie(await fetch(`movies/${id}`)
           .then(res => res.json())
           .then(data => data)
         )
-      })()
-    else
+      })();
+    }
+    else {
       setSelectedMovie(null)
+      if (selectedActor) {
+        document.title = `Movies - Actor Name "${selectedActor}"`
+      } else if (selectedYear) {
+        document.title = `Movies - Year ${selectedYear}`
+      } else {
+        document.title = `Movies - Home`
+      }
+    }
   }
 
   /**
@@ -107,7 +119,7 @@ function App() {
       {currentScreen === main ?
         <SelectorContext.Provider value={{ chooseMovie: chooseMovie }}>
           {(selectedMovie === null) && (moviesArr.length > 0) ?
-            <List movies={moviesArr} yearSelected={selectedYear !== null} /> :
+            <List movies={moviesArr} yearSelected={selectedYear !== null} selectedActor={selectedActor} /> :
             (selectedMovie) ?
               <Movie movie={selectedMovie} /> :
               <h2>No movies for {selectedActor && !selectedYear ? `actor: ${selectedActor}` : `year: ${selectedYear}`}</h2>

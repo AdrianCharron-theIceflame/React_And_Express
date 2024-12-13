@@ -26,7 +26,8 @@ export type AllMoviesType = {
 }
 export type ListPropsType = {
     movies: AllMoviesType[],
-    yearSelected: boolean
+    yearSelected: boolean,
+    selectedActor: string | null
 }
 export type ActorSelectorPropsType = {
     searchActor: (name: string | null) => void

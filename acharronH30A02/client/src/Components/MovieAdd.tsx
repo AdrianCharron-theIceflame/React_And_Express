@@ -1,7 +1,7 @@
 import { useState } from "react"
-const $$ = (sel: string) => document.querySelector(sel) as HTMLInputElement | null
+import { $$ } from "./Functions"
 export default function MovieAdd() {
-
+    document.title = `Movies - Add A Movie`
     // error state variables
     const [titleErr, setTitleErr] = useState(false)
     const [genreErr, setGenreErr] = useState(false)
@@ -120,7 +120,6 @@ export default function MovieAdd() {
                     "Runtime": runtime,
                     "Revenue": revenue
                 };
-                console.log(newMovie);
                 (async function () {
                     await fetch(`/movies`, {
                         method: `post`,

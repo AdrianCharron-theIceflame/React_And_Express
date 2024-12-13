@@ -44,7 +44,6 @@ app.route(`/movies/:id?`)
     })
     .post((req, res) => {
         let outStream = fs.createWriteStream(dataRoot)
-        console.log(req.body)
         let newKey: number = 1
         moviesJson.forEach(movie => {
             if (movie.Key >= newKey)
@@ -60,6 +59,7 @@ app.route(`/movies/:id?`)
             "Revenue": req.body.Revenue
         }
         moviesJson.push(newMovie)
+        moviesJson.sort(el => el.Key)
         outStream.write(JSON.stringify(moviesJson), err => {
             if (err) {
                 res.status(500).end(`Problem writing to file`)
