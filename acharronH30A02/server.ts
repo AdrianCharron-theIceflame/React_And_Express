@@ -1,12 +1,14 @@
 import express from "express";
 import path from "path";
-import movies from "./data/movies.json";
+import moviesJson from "./data/movies.json";
 import fs from "fs";
+import { stringify } from "querystring";
 
 const app = express()
 const PORT = 8888
 const WEBROOT = path.join(__dirname, `client`, `build`)
 const a2Headers: [string, string] = [`H30`, `Assignment 2`]
+const dataRoot = path.join(__dirname, `data`, `movies.json`)
 
 type AllMoviesType = {
     Key: number,
@@ -26,7 +28,7 @@ app.route(`/movies/:id?`)
     .get((req, res) => {
         res.setHeader(...a2Headers)
         if (req.params.id) {
-            let foundMovie = movies.find((el) => el.Key === Number(req.params.id))
+            let foundMovie = moviesJson.find((el) => el.Key === Number(req.params.id))
             if (foundMovie) {
                 res.json(foundMovie)
             } else {
@@ -34,14 +36,33 @@ app.route(`/movies/:id?`)
                     .end(`<h1>Movie Not Found</h1>`)
             }
         } else {
-            let allMovies: AllMoviesType[] = movies.map(movie => {
+            let allMovies: AllMoviesType[] = moviesJson.map(movie => {
                 return createMovieObject(movie)
             }).sort((movie, movie2) => movie.Title.localeCompare(movie2.Title))
             res.json(allMovies)
         }
     })
     .post((req, res) => {
-
+        let outStream = fs.createWriteStream(dataRoot, {flags: "a"})
+        let newKey: number = 1
+        moviesJson.forEach(movie => {
+            if (movie.Key >= newKey)
+                newKey = movie.Key + 1
+        })
+        let newMovie = {
+            "Key": newKey,
+            "Title": req.body.Title,
+            "Genre": req.body.Actors,
+            "Year": req.body.Year,
+            "Runtime": req.body.Runtime,
+            "Revenue": req.body.Revenue
+        }
+        outStream.write(stringify(newMovie), err => {
+            if (err) {
+                res.status(500).end()
+            }
+        })
+        outStream.close()
     })
 
 app.route(`/actors/:name`).get((req, res) => {
@@ -50,7 +71,7 @@ app.route(`/actors/:name`).get((req, res) => {
     let actorRegex = new RegExp(actorName, "i")
     res.setHeader(...a2Headers)
     let actorMovies: AllMoviesType[] = new Array(0)
-    movies.forEach(movie => {
+    moviesJson.forEach(movie => {
         if (movie.Actors.find(actor => actorRegex.test(actor)))
             actorMovies.push(createMovieObject(movie))
     })
@@ -62,7 +83,7 @@ app.route(`/years/:year`).get((req, res) => {
     res.setHeader(...a2Headers)
     let yearMovies: AllMoviesType[] = new Array(0)
     let year = Number(req.params.year)
-    movies.forEach(movie => {
+    moviesJson.forEach(movie => {
         if (movie.Year === year)
             yearMovies.push(createMovieObject(movie))
     })

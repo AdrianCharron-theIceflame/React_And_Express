@@ -6,10 +6,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const path_1 = __importDefault(require("path"));
 const movies_json_1 = __importDefault(require("./data/movies.json"));
+const fs_1 = __importDefault(require("fs"));
+const querystring_1 = require("querystring");
 const app = (0, express_1.default)();
 const PORT = 8888;
 const WEBROOT = path_1.default.join(__dirname, `client`, `build`);
 const a2Headers = [`H30`, `Assignment 2`];
+const dataRoot = path_1.default.join(__dirname, `data`, `movies.json`);
 app.use(express_1.default.static(WEBROOT, {
     setHeaders(res, path, stat) {
         res.setHeader(...a2Headers);
@@ -37,6 +40,26 @@ app.route(`/movies/:id?`)
     }
 })
     .post((req, res) => {
+    let outStream = fs_1.default.createWriteStream(dataRoot, { flags: "a" });
+    let newKey = 1;
+    movies_json_1.default.forEach(movie => {
+        if (movie.Key >= newKey)
+            newKey = movie.Key + 1;
+    });
+    let newMovie = {
+        "Key": newKey,
+        "Title": req.body.Title,
+        "Genre": req.body.Actors,
+        "Year": req.body.Year,
+        "Runtime": req.body.Runtime,
+        "Revenue": req.body.Revenue
+    };
+    outStream.write((0, querystring_1.stringify)(newMovie), err => {
+        if (err) {
+            res.status(500).end();
+        }
+    });
+    outStream.close();
 });
 app.route(`/actors/:name`).get((req, res) => {
     let actorName = req.params.name.toLowerCase();
