@@ -108,6 +108,8 @@ function App() {
   function chooseCurrentScreen(e: React.MouseEvent<HTMLButtonElement>) {
     let button = e.target as HTMLButtonElement
     setCurrentScreen(button.value)
+    setSelectedActor(null)
+    setSelectedYear(null)
   }
 
   return (
