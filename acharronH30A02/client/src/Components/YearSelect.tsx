@@ -12,7 +12,7 @@ export default function YearSelect(props: YearSelectPropsType) {
     function inputChange(e: React.ChangeEvent<HTMLInputElement>) {
         let fldYearIn = e.target.value
         let yearRegX = /\d{4}/
-        if (yearRegX.test(fldYearIn)) {
+        if (yearRegX.test(fldYearIn) || fldYearIn === ``) {
             setError(false)
             setSearchYear(Number(fldYearIn))
         } else {

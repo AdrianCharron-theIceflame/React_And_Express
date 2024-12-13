@@ -10,10 +10,6 @@ import MovieAdd from './MovieAdd';
 
 const main = `MAIN_PAGE`
 const form = `FORM_PAGE`
-const sessionItem = `paneDisplay`
-if (sessionStorage.getItem(sessionItem) === null) {
-  sessionStorage.setItem(sessionItem, main)
-}
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState<string | null>(main)
@@ -22,7 +18,6 @@ function App() {
   const [moviesArr, setMoviesArr] = useState<AllMoviesType[]>(new Array<AllMoviesType>())
   const [selectedMovie, setSelectedMovie] = useState<MovieType | null>(null)
   useEffect(() => {
-    setCurrentScreen(sessionStorage.getItem(sessionItem))
     if (selectedActor === null && selectedYear === null) {
       (async function () {
         setMoviesArr(await fetch(`/movies`, {
@@ -94,9 +89,12 @@ function App() {
     else setSelectedYear(null)
   }
 
+  /**
+   * Changes the current Screen to 
+   * @param e clicking event on "home" or "add a movie" buttons
+   */
   function chooseCurrentScreen(e: React.MouseEvent<HTMLButtonElement>) {
     let button = e.target as HTMLButtonElement
-    sessionStorage.setItem(sessionItem, button.value)
     setCurrentScreen(button.value)
   }
 

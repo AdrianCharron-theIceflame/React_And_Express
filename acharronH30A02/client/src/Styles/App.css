@@ -1,3 +1,8 @@
 .list li:hover {
     background-color: #fef8a0;
 }
+
+form {
+    display: flex;
+    flex-flow: column;
+}

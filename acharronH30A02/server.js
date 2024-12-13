@@ -7,18 +7,18 @@ const express_1 = __importDefault(require("express"));
 const path_1 = __importDefault(require("path"));
 const movies_json_1 = __importDefault(require("./data/movies.json"));
 const fs_1 = __importDefault(require("fs"));
-const querystring_1 = require("querystring");
 const app = (0, express_1.default)();
 const PORT = 8888;
 const WEBROOT = path_1.default.join(__dirname, `client`, `build`);
 const a2Headers = [`H30`, `Assignment 2`];
 const dataRoot = path_1.default.join(__dirname, `data`, `movies.json`);
 app.use(express_1.default.static(WEBROOT, {
-    setHeaders(res, path, stat) {
+    setHeaders(res) {
         res.setHeader(...a2Headers);
     },
 }));
 app.use(express_1.default.urlencoded({ extended: true }));
+app.use(express_1.default.json());
 app.route(`/movies/:id?`)
     .get((req, res) => {
     res.setHeader(...a2Headers);
@@ -40,7 +40,8 @@ app.route(`/movies/:id?`)
     }
 })
     .post((req, res) => {
-    let outStream = fs_1.default.createWriteStream(dataRoot, { flags: "a" });
+    let outStream = fs_1.default.createWriteStream(dataRoot);
+    console.log(req.body);
     let newKey = 1;
     movies_json_1.default.forEach(movie => {
         if (movie.Key >= newKey)
@@ -49,15 +50,19 @@ app.route(`/movies/:id?`)
     let newMovie = {
         "Key": newKey,
         "Title": req.body.Title,
-        "Genre": req.body.Actors,
+        "Genre": req.body.Genre,
+        "Actors": req.body.Actors,
         "Year": req.body.Year,
         "Runtime": req.body.Runtime,
         "Revenue": req.body.Revenue
     };
-    outStream.write((0, querystring_1.stringify)(newMovie), err => {
+    movies_json_1.default.push(newMovie);
+    outStream.write(JSON.stringify(movies_json_1.default), err => {
         if (err) {
-            res.status(500).end();
+            res.status(500).end(`Problem writing to file`);
         }
+        else
+            res.status(200).end(`Movie received and written`);
     });
     outStream.close();
 });

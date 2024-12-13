@@ -2,7 +2,6 @@ import express from "express";
 import path from "path";
 import moviesJson from "./data/movies.json";
 import fs from "fs";
-import { stringify } from "querystring";
 
 const app = express()
 const PORT = 8888
@@ -17,12 +16,13 @@ type AllMoviesType = {
 }
 
 app.use(express.static(WEBROOT, {
-    setHeaders(res, path, stat) {
+    setHeaders(res) {
         res.setHeader(...a2Headers)
     },
 }))
 
 app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
 
 app.route(`/movies/:id?`)
     .get((req, res) => {
@@ -43,7 +43,8 @@ app.route(`/movies/:id?`)
         }
     })
     .post((req, res) => {
-        let outStream = fs.createWriteStream(dataRoot, {flags: "a"})
+        let outStream = fs.createWriteStream(dataRoot)
+        console.log(req.body)
         let newKey: number = 1
         moviesJson.forEach(movie => {
             if (movie.Key >= newKey)
@@ -52,15 +53,18 @@ app.route(`/movies/:id?`)
         let newMovie = {
             "Key": newKey,
             "Title": req.body.Title,
-            "Genre": req.body.Actors,
+            "Genre": req.body.Genre,
+            "Actors": req.body.Actors,
             "Year": req.body.Year,
             "Runtime": req.body.Runtime,
             "Revenue": req.body.Revenue
         }
-        outStream.write(stringify(newMovie), err => {
+        moviesJson.push(newMovie)
+        outStream.write(JSON.stringify(moviesJson), err => {
             if (err) {
-                res.status(500).end()
+                res.status(500).end(`Problem writing to file`)
             }
+            else res.status(200).end(`Movie received and written`)
         })
         outStream.close()
     })
