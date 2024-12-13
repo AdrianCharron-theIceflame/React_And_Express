@@ -64,7 +64,10 @@ app.route(`/movies/:id?`)
             if (err) {
                 res.status(500).end(`Problem writing to file`)
             }
-            else res.status(200).end(`Movie received and written`)
+            else {
+                console.log(`Movie Added!!`)
+                res.status(200).end(`Movie received and written`)
+            }
         })
         outStream.close()
     })
