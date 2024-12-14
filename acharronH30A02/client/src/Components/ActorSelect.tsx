@@ -28,7 +28,7 @@ export default function ActorSelect(props: ActorSelectorPropsType) {
         }
     }
     return (
-        <div className="actorSelector">
+        <div className="actorSelect">
             <label htmlFor="fldActorName">Search for an actors's name: </label><input onChange={inputChange} onKeyDown={actionPerformed_searchName} type="text" name="fldActorName" id="fldActorName" />
             <button onClick={actionPerformed_searchName}>Search for Actor</button>
         </div>

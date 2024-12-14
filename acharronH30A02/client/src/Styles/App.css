@@ -1,3 +1,30 @@
+header {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: white;
+    /* display: flex; */
+    padding: 1vi;
+    margin: 0;
+    border-block-end: 1px solid black;
+}
+
+h1,
+#search,
+nav {
+    margin: 1vi;
+}
+
+.actorSelect, .yearSelect {
+    display: flex;
+    flex-flow: column;
+    inline-size: 64vi;
+}
+
+nav button {
+    inline-size: 32vi;
+}
+
 .list li a:hover {
     background-color: #fef8a0;
 }
@@ -7,13 +34,27 @@ form {
     flex-flow: column;
 }
 
-header#topBar{
-    position: sticky;
-    top: 0;
-    z-index: 1;
-    background-color: white;
-}
-
 main {
     z-index: 0;
+}
+
+@media (min-width: 768px) {
+    header {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+    #search {
+        display: flex;
+    }
+    .actorSelect, .yearSelect {
+        inline-size: 32vi;
+        padding-inline-end: 1vi;
+    }
+    nav button {
+        margin-inline: .5vi;
+        inline-size: 12vi;
+    }
+    main{
+        margin-inline: 5vi;
+    }
 }

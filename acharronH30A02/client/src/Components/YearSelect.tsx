@@ -3,7 +3,9 @@ import { YearSelectPropsType } from "./moviesTypes"
 export default function YearSelect(props: YearSelectPropsType) {
     const { searchYear } = props
     const [year, setSearchYear] = useState<number | null>(null)
-    const [error, setError] = useState<boolean>(false)
+    const [yearBoundsErr, setYearBoundsErr] = useState<boolean>(false)
+    const [yearNaNErr, setYearNaNErr] = useState(false)
+    let currentYear = (new Date()).getFullYear()
 
     /**
      * Reads for a change event to change the stored name
@@ -11,13 +13,27 @@ export default function YearSelect(props: YearSelectPropsType) {
      */
     function inputChange(e: React.ChangeEvent<HTMLInputElement>) {
         let fldYearIn = e.target.value
-        let yearRegX = /\d{4}/
-        if (yearRegX.test(fldYearIn) || fldYearIn === ``) {
-            setError(false)
-            setSearchYear(Number(fldYearIn))
+        let yearRegX = /^\d+$/
+        if (yearRegX.test(fldYearIn)) {
+            let year = Number(fldYearIn)
+            setYearNaNErr(false)
+            if (year >= 1920 && year <= currentYear) {
+                setYearBoundsErr(false)
+                setSearchYear(year)
+            } else {
+                setSearchYear(null)
+                setYearBoundsErr(true)
+            }
         } else {
-            setError(true)
-            setSearchYear(null)
+            if (fldYearIn.length == 0) {
+                setYearBoundsErr(false)
+                setYearNaNErr(false)
+                setSearchYear(null)
+            } else {
+                setYearBoundsErr(false)
+                setYearNaNErr(true)
+                setSearchYear(null)
+            }
         }
     }
 
@@ -38,7 +54,7 @@ export default function YearSelect(props: YearSelectPropsType) {
         <div className="yearSelect">
             <label htmlFor="fldYear">Search for a specific year: </label>
             <input onKeyDown={actionPerformed_searchYear} onChange={inputChange} type="number" name="fldYear" id="fldYear" />
-            {error ? <label className="error">* Invalid year format</label> : null}
+            <label className="error">{yearNaNErr ? `* Year must be a number` : yearBoundsErr ? `* Year must be between 1920 and ${currentYear}` : null}</label>
             <button onClick={actionPerformed_searchYear}>Search for Year</button>
         </div>
     )

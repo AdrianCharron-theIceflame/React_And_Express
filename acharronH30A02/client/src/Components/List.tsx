@@ -6,7 +6,7 @@ export default function List(props: ListPropsType) {
     const { chooseMovie } = useContext(SelectorContext)
     return (
         <div className="list">
-            {yearSelected ? <h3>Year {movies[0].Year}</h3> : selectedActor ? <h3>Search results for: {selectedActor}</h3> : null}
+            {yearSelected ? <h2>Year {movies[0].Year}</h2> : selectedActor ? <h2>Search results for: {selectedActor}</h2> : <h2>All Movies</h2>}
             <ul>
                 {movies.map(el => (<li key={el.Key} ><a href={`/#${el.Key}`} onClick={() => { chooseMovie(el.Key) }}>{el.Title} {yearSelected ? null : `from ${el.Year}`}</a></li>))}
             </ul>

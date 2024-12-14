@@ -88,7 +88,7 @@ function App() {
     }
     else setSelectedActor(null)
     setCurrentScreen(main)
-    window.scrollTo(0,0)
+    window.scrollTo(0, 0)
   }
 
   /**
@@ -102,7 +102,7 @@ function App() {
       setSelectedYear(year)
     else setSelectedYear(null)
     setCurrentScreen(main)
-    window.scrollTo(0,0)
+    window.scrollTo(0, 0)
   }
 
   /**
@@ -114,17 +114,21 @@ function App() {
     setCurrentScreen(button.value)
     setSelectedActor(null)
     setSelectedYear(null)
-    window.scrollTo(0,0)
+    window.scrollTo(0, 0)
   }
 
   return (
     <div className='app'>
-      <header id="topBar">
+      <header>
         <h1>Movie System</h1>
-        <ActorSelect searchActor={searchActor} />
-        <YearSelect searchYear={searchYear} />
-        <button onClick={chooseCurrentScreen} value={main}>Home</button>
-        <button onClick={chooseCurrentScreen} value={form}>Add A Movie</button>
+        <div id="search">
+          <ActorSelect searchActor={searchActor} />
+          <YearSelect searchYear={searchYear} />
+        </div>
+        <nav>
+          <button onClick={chooseCurrentScreen} value={main}>Home</button>
+          <button onClick={chooseCurrentScreen} value={form}>Add A Movie</button>
+        </nav>
       </header>
       <main>
         {currentScreen === main ?
