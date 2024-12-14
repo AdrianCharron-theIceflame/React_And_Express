@@ -1,9 +1,19 @@
+@import url("https://fonts.googleapis.com/css2?family=Aldrich&family=Source+Sans+3&display=swap");
+
+:root {
+    --titleFontFamily: Aldrich, sans-serif;
+    --fontFamily: "Source Sans 3", sans-serif;
+}
+
+body {
+    font-family: var(--fontFamily);
+}
+
 header {
     position: sticky;
     top: 0;
     z-index: 1;
     background-color: white;
-    /* display: flex; */
     padding: 1vi;
     margin: 0;
     border-block-end: 1px solid black;
@@ -12,7 +22,11 @@ header {
 h1,
 #search,
 nav {
-    margin: 1vi;
+    margin: 3vi;
+}
+
+h1, h2 {
+    font-family: var(--titleFontFamily);
 }
 
 .actorSelect, .yearSelect {
@@ -25,29 +39,49 @@ nav button {
     inline-size: 32vi;
 }
 
-.list li a:hover {
-    background-color: #fef8a0;
-}
 
 form {
     display: flex;
     flex-flow: column;
+    margin-block: 1vi;
+    margin-inline: 12vi;
+}
+
+input#year, input#runtime, input#revenue {
+    inline-size: 50%;
 }
 
 main {
     z-index: 0;
 }
 
+.list li a:hover {
+    background-color: #fef8a0;
+}
+
+.movie {
+    display:flex;
+}
+.movie button {
+    block-size: 2em;
+    inline-size: 4em;
+    margin-block-start: 2vb;
+}
+
+.movie section {
+    margin-inline-start: 3vi;
+}
+
 @media (min-width: 768px) {
     header {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 40vi 1fr;
     }
     #search {
         display: flex;
     }
     .actorSelect, .yearSelect {
-        inline-size: 32vi;
+        inline-size: 26vi;
         padding-inline-end: 1vi;
     }
     nav button {
@@ -56,5 +90,22 @@ main {
     }
     main{
         margin-inline: 5vi;
+    }
+}
+
+@media (min-width: 1200px) {
+    header {
+        grid-template-columns: 1fr 40vi 30vi;
+        text-align: end;
+    }
+    .actorSelect, .yearSelect {
+        text-align: start;
+        inline-size: 20vi;
+        padding-inline-end: 1vi;
+        justify-self: end;
+    }
+    nav button {
+        margin-inline: .5vi;
+        inline-size: 10vi;
     }
 }

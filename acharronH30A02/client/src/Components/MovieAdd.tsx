@@ -142,10 +142,10 @@ export default function MovieAdd() {
                 <label htmlFor="title">Movie Title:</label>
                 <input className={titleErr ? errClass : ``} onChange={checkIfFieldEmpty} placeholder="Doe" type="text" name="title" id="title" />
                 <label className="err">{titleErr ? `* Title cannot be empty` : null}</label>
-                <label htmlFor="genre">Genres: (separate multiple with commas ',')</label>
+                <label htmlFor="genre">Genre:<br/>(Separate multiple with commas ',')</label>
                 <input className={genreErr ? errClass : ``} onChange={checkIfFieldEmpty} placeholder="Action, Romance, etc" type="text" name="genre" id="genre" />
                 <label className="err">{genreErr ? `* Genre cannot be empty` : null}</label>
-                <label htmlFor="actors">Actors: (separate multiple with commas ',')</label>
+                <label htmlFor="actors">Actors:<br/>(Separate multiple with commas ',')</label>
                 <input className={actorsErr ? errClass : ``} onChange={checkIfFieldEmpty} placeholder="John Doe, Jane Doe, etc" type="text" name="actors" id="actors" />
                 <label className="err">{actorsErr ? `* Actors cannot be empty` : null}</label>
                 <label htmlFor="year">Year:</label>
