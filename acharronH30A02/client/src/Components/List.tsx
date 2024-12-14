@@ -8,7 +8,7 @@ export default function List(props: ListPropsType) {
         <div className="list">
             {yearSelected ? <h3>Year {movies[0].Year}</h3> : selectedActor ? <h3>Search results for: {selectedActor}</h3> : null}
             <ul>
-                {movies.map(el => (<li key={el.Key} onClick={() => { chooseMovie(el.Key) }}>{el.Title} {yearSelected ? null : `from ${el.Year}`}</li>))}
+                {movies.map(el => (<li key={el.Key} ><a href={`/#${el.Key}`} onClick={() => { chooseMovie(el.Key) }}>{el.Title} {yearSelected ? null : `from ${el.Year}`}</a></li>))}
             </ul>
         </div>
     )

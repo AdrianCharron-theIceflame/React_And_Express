@@ -151,10 +151,10 @@ export default function MovieAdd() {
                 <label htmlFor="year">Year:</label>
                 <input className={yearBoundsErr || yearNaNErr ? errClass : ``} onChange={onYearChange} placeholder={`${currentYear}`} type="number" name="year" id="year" />
                 <label className="err">{yearNaNErr ? `* Year must be a number and cannot be empty` : yearBoundsErr ? `* Year must be between 1920 and ${currentYear}` : null}</label>
-                <label htmlFor="runtime">Runtime (in minutes):</label>
+                <label htmlFor="runtime">Runtime in minutes:</label>
                 <input className={runtimeErr ? errClass : ``} onChange={onRuntimeChange} placeholder="90" type="text" name="runtime" id="runtime" />
                 <label className="err">{runtimeErr ? `* Runtime must be a number and cannot be empty` : null}</label>
-                <label htmlFor="revenue">Revenue:</label>
+                <label htmlFor="revenue">Revenue in millions:</label>
                 <input className={revenueErr ? errClass : ``} onChange={onRevenueChange} type="text" name="revenue" id="revenue" />
                 <label className="err">{revenueErr ? `* Runtime must be a number and cannot be empty` : null}</label>
                 <input type="submit" value="Add Movie" />

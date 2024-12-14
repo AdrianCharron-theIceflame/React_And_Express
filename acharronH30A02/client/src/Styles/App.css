@@ -1,8 +1,19 @@
-.list li:hover {
+.list li a:hover {
     background-color: #fef8a0;
 }
 
 form {
     display: flex;
     flex-flow: column;
+}
+
+header#topBar{
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: white;
+}
+
+main {
+    z-index: 0;
 }

@@ -87,6 +87,8 @@ function App() {
       setSelectedActor(name)
     }
     else setSelectedActor(null)
+    setCurrentScreen(main)
+    window.scrollTo(0,0)
   }
 
   /**
@@ -99,6 +101,8 @@ function App() {
     if (year)
       setSelectedYear(year)
     else setSelectedYear(null)
+    setCurrentScreen(main)
+    window.scrollTo(0,0)
   }
 
   /**
@@ -110,25 +114,31 @@ function App() {
     setCurrentScreen(button.value)
     setSelectedActor(null)
     setSelectedYear(null)
+    window.scrollTo(0,0)
   }
 
   return (
     <div className='app'>
-      <ActorSelect searchActor={searchActor} />
-      <YearSelect searchYear={searchYear} />
-      <button onClick={chooseCurrentScreen} value={main}>Home</button>
-      <button onClick={chooseCurrentScreen} value={form}>Add A Movie</button>
-      {currentScreen === main ?
-        <SelectorContext.Provider value={{ chooseMovie: chooseMovie }}>
-          {(selectedMovie === null) && (moviesArr.length > 0) ?
-            <List movies={moviesArr} yearSelected={selectedYear !== null} selectedActor={selectedActor} /> :
-            (selectedMovie) ?
-              <Movie movie={selectedMovie} /> :
-              <h2>No movies for {selectedActor && !selectedYear ? `actor: ${selectedActor}` : `year: ${selectedYear}`}</h2>
-          }
-        </SelectorContext.Provider> :
-        <MovieAdd />
-      }
+      <header id="topBar">
+        <h1>Movie System</h1>
+        <ActorSelect searchActor={searchActor} />
+        <YearSelect searchYear={searchYear} />
+        <button onClick={chooseCurrentScreen} value={main}>Home</button>
+        <button onClick={chooseCurrentScreen} value={form}>Add A Movie</button>
+      </header>
+      <main>
+        {currentScreen === main ?
+          <SelectorContext.Provider value={{ chooseMovie: chooseMovie }}>
+            {(selectedMovie === null) && (moviesArr.length > 0) ?
+              <List movies={moviesArr} yearSelected={selectedYear !== null} selectedActor={selectedActor} /> :
+              (selectedMovie) ?
+                <Movie movie={selectedMovie} /> :
+                <h2>No movies for {selectedActor && !selectedYear ? `actor: ${selectedActor}` : `year: ${selectedYear}`}</h2>
+            }
+          </SelectorContext.Provider> :
+          <MovieAdd />
+        }
+      </main>
     </div>
   );
 }
