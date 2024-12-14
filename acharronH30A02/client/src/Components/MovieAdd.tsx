@@ -50,7 +50,7 @@ export default function MovieAdd() {
 
     function onRuntimeChange() {
         let fldRuntime = $$(`#runtime`)
-        let runtimeRegEx = /^\d+$/
+        let runtimeRegEx = /^\d+(\.\d+)?$/
         if (fldRuntime) {
             let input = fldRuntime.value
             setRuntimeErr(!runtimeRegEx.test(input))
@@ -121,6 +121,7 @@ export default function MovieAdd() {
                     "Revenue": revenue
                 };
                 (async function () {
+                    let error: any
                     await fetch(`/movies`, {
                         method: `post`,
                         body: JSON.stringify(newMovie),
@@ -128,9 +129,17 @@ export default function MovieAdd() {
                             "Content-Type": "application/json"
                         }
                     })
-                        .then(response => response.json())
+                        .then(response => response.text())
                         .then(data => console.log(data))
-                        .catch(err => console.log(err))
+                        .catch(err => err = error);
+                    if (error) {
+                        console.log(error)
+                    }
+                    else {
+                        setTimeout(() => {
+                            window.location.href = `/`
+                        }, 1500)
+                    }
                 })()
             }
         }
@@ -138,14 +147,15 @@ export default function MovieAdd() {
 
     return (
         <div className="movieAdd">
+            <h2>Add A Movie</h2>
             <form onSubmit={submitMovie}>
                 <label htmlFor="title">Movie Title:</label>
                 <input className={titleErr ? errClass : ``} onChange={checkIfFieldEmpty} placeholder="Doe" type="text" name="title" id="title" />
                 <label className="err">{titleErr ? `* Title cannot be empty` : null}</label>
-                <label htmlFor="genre">Genre:<br/>(Separate multiple with commas ',')</label>
+                <label htmlFor="genre">Genre:<br />(Separate multiple with commas ',')</label>
                 <input className={genreErr ? errClass : ``} onChange={checkIfFieldEmpty} placeholder="Action, Romance, etc" type="text" name="genre" id="genre" />
                 <label className="err">{genreErr ? `* Genre cannot be empty` : null}</label>
-                <label htmlFor="actors">Actors:<br/>(Separate multiple with commas ',')</label>
+                <label htmlFor="actors">Actors:<br />(Separate multiple with commas ',')</label>
                 <input className={actorsErr ? errClass : ``} onChange={checkIfFieldEmpty} placeholder="John Doe, Jane Doe, etc" type="text" name="actors" id="actors" />
                 <label className="err">{actorsErr ? `* Actors cannot be empty` : null}</label>
                 <label htmlFor="year">Year:</label>
@@ -155,7 +165,7 @@ export default function MovieAdd() {
                 <input className={runtimeErr ? errClass : ``} onChange={onRuntimeChange} placeholder="90" type="text" name="runtime" id="runtime" />
                 <label className="err">{runtimeErr ? `* Runtime must be a number and cannot be empty` : null}</label>
                 <label htmlFor="revenue">Revenue in millions:</label>
-                <input className={revenueErr ? errClass : ``} onChange={onRevenueChange} type="text" name="revenue" id="revenue" />
+                <input placeholder="1.2" className={revenueErr ? errClass : ``} onChange={onRevenueChange} type="text" name="revenue" id="revenue" />
                 <label className="err">{revenueErr ? `* Runtime must be a number and cannot be empty` : null}</label>
                 <input type="submit" value="Add Movie" />
             </form>

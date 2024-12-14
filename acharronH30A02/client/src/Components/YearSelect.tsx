@@ -53,8 +53,8 @@ export default function YearSelect(props: YearSelectPropsType) {
     return (
         <div className="yearSelect">
             <label htmlFor="fldYear">Search for a specific year: </label>
-            <input onKeyDown={actionPerformed_searchYear} onChange={inputChange} type="text" name="fldYear" id="fldYear" />
-            <label className="error">{yearNaNErr ? `* Year must be a number` : yearBoundsErr ? `* Year must be between 1920 and ${currentYear}` : null}</label>
+            <input className={yearNaNErr || yearBoundsErr ? "err" : ``} onKeyDown={actionPerformed_searchYear} onChange={inputChange} type="text" name="fldYear" id="fldYear" />
+            <label className="err">{yearNaNErr ? `* Year must be a number` : yearBoundsErr ? `* Year must be between 1920 and ${currentYear}` : null}</label>
             <button onClick={actionPerformed_searchYear}>Search for Year</button>
         </div>
     )

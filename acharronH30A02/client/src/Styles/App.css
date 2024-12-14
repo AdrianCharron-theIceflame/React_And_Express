@@ -1,5 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Aldrich&family=Source+Sans+3&display=swap");
 
+.app {
+    margin: 0;
+    padding: 0;
+}
+
 :root {
     --titleFontFamily: Aldrich, sans-serif;
     --fontFamily: "Source Sans 3", sans-serif;
@@ -10,6 +15,7 @@ body {
 }
 
 header {
+    inline-size: 100%;
     position: sticky;
     top: 0;
     z-index: 1;
@@ -25,11 +31,13 @@ nav {
     margin: 3vi;
 }
 
-h1, h2 {
+h1,
+h2 {
     font-family: var(--titleFontFamily);
 }
 
-.actorSelect, .yearSelect {
+.actorSelect,
+.yearSelect {
     display: flex;
     flex-flow: column;
     inline-size: 64vi;
@@ -45,10 +53,27 @@ form {
     flex-flow: column;
     margin-block: 1vi;
     margin-inline: 12vi;
+    padding: 1.5vi;
+    border: 1px solid black;
 }
 
-input#year, input#runtime, input#revenue {
+input.err {
+    border: 3px solid red;
+}
+
+label.err {
+    font-size: .85em;
+    color: red;
+}
+
+input#year,
+input#runtime,
+input#revenue {
     inline-size: 50%;
+}
+
+form label, form input[type="submit"] {
+    margin-block-start: .3em;
 }
 
 main {
@@ -60,8 +85,9 @@ main {
 }
 
 .movie {
-    display:flex;
+    display: flex;
 }
+
 .movie button {
     block-size: 2em;
     inline-size: 4em;
@@ -77,19 +103,28 @@ main {
         display: grid;
         grid-template-columns: 40vi 1fr;
     }
+
     #search {
         display: flex;
     }
-    .actorSelect, .yearSelect {
+
+    .actorSelect,
+    .yearSelect {
         inline-size: 26vi;
         padding-inline-end: 1vi;
     }
+
     nav button {
         margin-inline: .5vi;
         inline-size: 12vi;
     }
-    main{
+
+    main {
         margin-inline: 5vi;
+    }
+
+    form input[type="submit"] {
+        inline-size: 50%;
     }
 }
 
@@ -98,14 +133,36 @@ main {
         grid-template-columns: 1fr 40vi 30vi;
         text-align: end;
     }
-    .actorSelect, .yearSelect {
+
+    .actorSelect,
+    .yearSelect {
         text-align: start;
         inline-size: 20vi;
         padding-inline-end: 1vi;
         justify-self: end;
     }
+
     nav button {
         margin-inline: .5vi;
         inline-size: 10vi;
+    }
+    form {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        column-gap: 1vi;
+    }
+    form label:not(.err) {
+        grid-column: 1;
+        text-align: end;
+    }
+    form label.err, form input:not([type="submit"]) {
+        grid-column: span 2;
+        grid-column: 2/4;
+    }
+    form input[type="submit"] {
+        grid-column: 2/3;
+    }
+    form input {
+        block-size: 2em;
     }
 }
