@@ -117,6 +117,33 @@ function App() {
     window.scrollTo(0, 0)
   }
 
+  function sortMoviesList(e: React.ChangeEvent<HTMLSelectElement>) {
+    let select = e.target as HTMLSelectElement
+    let cloneArr = moviesArr.slice()
+    if (select.value === `title`)
+      cloneArr.sort((mov1, mov2) => {
+        return mov1.Title.localeCompare(mov2.Title)
+      })
+    else if (select.value === `year`)
+      cloneArr.sort((mov1, mov2) => {
+        if (
+          mov1.Year > mov2.Year ||
+          (mov1.Year === mov2.Year &&
+            mov1.Title.localeCompare(mov2.Title) > 0)
+        ) {
+          return 1
+        } else if (
+          mov1.Year < mov2.Year ||
+          (mov1.Year === mov2.Year &&
+            mov1.Title.localeCompare(mov2.Title) < 0)
+        ) {
+          return -1
+        } else
+          return 0
+      })
+    setMoviesArr(cloneArr)
+  }
+
   return (
     <div className='app'>
       <header>
@@ -134,7 +161,7 @@ function App() {
         {currentScreen === main ?
           <SelectorContext.Provider value={{ chooseMovie: chooseMovie }}>
             {(selectedMovie === null) && (moviesArr.length > 0) ?
-              <List movies={moviesArr} yearSelected={selectedYear !== null} selectedActor={selectedActor} /> :
+              <List movies={moviesArr} yearSelected={selectedYear !== null} selectedActor={selectedActor} sortTypeChange={sortMoviesList} /> :
               (selectedMovie) ?
                 <Movie movie={selectedMovie} /> :
                 <h2>No movies for {selectedActor && !selectedYear ? `actor: ${selectedActor}` : `year: ${selectedYear}`}</h2>
