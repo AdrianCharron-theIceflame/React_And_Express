@@ -20,7 +20,7 @@ function App() {
   useEffect(() => {
     if (selectedActor === null && selectedYear === null) {
       (async function () {
-        setMoviesArr(await fetch(`/movies`, {
+        setMoviesArr(await fetch(`/api/movies`, {
           method: "GET"
         })
           .then(res => res.json())
@@ -31,7 +31,7 @@ function App() {
     }
     else if (selectedActor !== null && selectedYear === null) {
       (async function () {
-        setMoviesArr(await fetch(`/actors/${selectedActor}`)
+        setMoviesArr(await fetch(`/api/actors/${selectedActor}`)
           .then(res => res.json())
           .then(data => data)
         )
@@ -56,7 +56,7 @@ function App() {
   function chooseMovie(id: number | null = null) {
     if (id !== null) {
       (async function () {
-        setSelectedMovie(await fetch(`movies/${id}`)
+        setSelectedMovie(await fetch(`/api/movies/${id}`)
           .then(res => res.json())
           .then(data => data)
         )
