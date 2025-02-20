@@ -5,7 +5,7 @@ import fs from "fs";
 
 const app = express()
 const PORT = 8888
-const WEBROOT = path.join(__dirname, `client`, `build`)
+const WEBROOT = path.join(__dirname, `client`, `dist`)
 const a2Headers: [string, string] = [`H30`, `Assignment 2`]
 const dataRoot = path.join(__dirname, `data`, `movies.json`)
 
@@ -24,7 +24,7 @@ app.use(express.static(WEBROOT, {
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
-app.route(`/movies/:id?`)
+app.route(`/api/movies/:id?`)
     .get((req, res) => {
         res.setHeader(...a2Headers)
         if (req.params.id) {
@@ -72,7 +72,7 @@ app.route(`/movies/:id?`)
         outStream.close()
     })
 
-app.route(`/actors/:name`).get((req, res) => {
+app.route(`/api/actors/:name`).get((req, res) => {
     let actorName = req.params.name.toLowerCase()
     actorName = actorName.replaceAll(`+`, " ")
     let actorRegex = new RegExp(actorName, "i")
@@ -86,7 +86,7 @@ app.route(`/actors/:name`).get((req, res) => {
     res.json(actorMovies)
 })
 
-app.route(`/years/:year`).get((req, res) => {
+app.route(`/api/years/:year`).get((req, res) => {
     res.setHeader(...a2Headers)
     let yearMovies: AllMoviesType[] = new Array(0)
     let year = Number(req.params.year)

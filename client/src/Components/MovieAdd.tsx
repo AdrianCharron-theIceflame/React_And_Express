@@ -122,7 +122,7 @@ export default function MovieAdd() {
                 };
                 (async function () {
                     let error: any
-                    await fetch(`/movies`, {
+                    await fetch(`/api/movies`, {
                         method: `post`,
                         body: JSON.stringify(newMovie),
                         headers: {
@@ -131,7 +131,7 @@ export default function MovieAdd() {
                     })
                         .then(response => response.text())
                         .then(data => console.log(data))
-                        .catch(err => err = error);
+                        .catch(err => error = err);
                     if (error) {
                         console.log(error)
                     }

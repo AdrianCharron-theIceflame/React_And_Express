@@ -9,7 +9,7 @@ const movies_json_1 = __importDefault(require("./data/movies.json"));
 const fs_1 = __importDefault(require("fs"));
 const app = (0, express_1.default)();
 const PORT = 8888;
-const WEBROOT = path_1.default.join(__dirname, `client`, `build`);
+const WEBROOT = path_1.default.join(__dirname, `client`, `dist`);
 const a2Headers = [`H30`, `Assignment 2`];
 const dataRoot = path_1.default.join(__dirname, `data`, `movies.json`);
 app.use(express_1.default.static(WEBROOT, {
@@ -19,7 +19,7 @@ app.use(express_1.default.static(WEBROOT, {
 }));
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use(express_1.default.json());
-app.route(`/movies/:id?`)
+app.route(`/api/movies/:id?`)
     .get((req, res) => {
     res.setHeader(...a2Headers);
     if (req.params.id) {
@@ -68,7 +68,7 @@ app.route(`/movies/:id?`)
     });
     outStream.close();
 });
-app.route(`/actors/:name`).get((req, res) => {
+app.route(`/api/actors/:name`).get((req, res) => {
     let actorName = req.params.name.toLowerCase();
     actorName = actorName.replaceAll(`+`, " ");
     let actorRegex = new RegExp(actorName, "i");
@@ -81,7 +81,7 @@ app.route(`/actors/:name`).get((req, res) => {
     actorMovies.sort((el, el2) => el.Title.localeCompare(el2.Title));
     res.json(actorMovies);
 });
-app.route(`/years/:year`).get((req, res) => {
+app.route(`/api/years/:year`).get((req, res) => {
     res.setHeader(...a2Headers);
     let yearMovies = new Array(0);
     let year = Number(req.params.year);

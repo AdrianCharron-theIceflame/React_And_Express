@@ -40,7 +40,7 @@ function App() {
     }
     else if (selectedActor === null && selectedYear !== null) {
       (async function () {
-        setMoviesArr(await fetch(`/years/${selectedYear}`)
+        setMoviesArr(await fetch(`/api/years/${selectedYear}`)
           .then(res => res.json())
           .then(data => data)
         )
